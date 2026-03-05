@@ -1,0 +1,96 @@
+# Manual smoke-test for the action against a real Dev.to account.
+# Uses a phased approach: validate secret → create fixture → run action.
+name: Test Action
+
+on:
+  workflow_dispatch:
+    inputs:
+      test-file:
+        description: 'Path to test markdown file'
+        required: false
+        default: 'test/sample-post.md'
+      draft:
+        description: 'Publish as draft?'
+        required: false
+        default: 'true'
+        type: choice
+        options: ['true', 'false']
+
+jobs:
+  # ─── Phase 1: Pre-flight check (fast, no checkout needed) ────────────────────
+  preflight:
+    name: "Phase 1 · Pre-flight"
+    runs-on: ubuntu-latest
+    outputs:
+      has-api-key: ${{ steps.check.outputs.has-api-key }}
+    steps:
+      - name: Check required secrets
+        id: check
+        env:
+          KEY: ${{ secrets.DEVTO_API_KEY }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "::error::DEVTO_API_KEY secret is not set. Add it in Settings → Secrets → Actions."
+            echo "has-api-key=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          echo "has-api-key=true" >> $GITHUB_OUTPUT
+          echo "✅ DEVTO_API_KEY is present"
+
+  # ─── Phase 2: Build from source (cached, skipped if dist/ is fresh) ──────────
+  build:
+    name: "Phase 2 · Build"
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+
+      - name: Build action
+        run: npm run build
+
+  # ─── Phase 3: Run smoke test against Dev.to ───────────────────────────────────
+  test:
+    name: "Phase 3 · Smoke Test"
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create test fixture
+        run: |
+          mkdir -p test
+          cat > "${{ github.event.inputs.test-file || 'test/sample-post.md' }}" << 'EOF'
+          ---
+          title: "Test Post from GitHub Action"
+          description: "Smoke test post published by the CI pipeline — safe to delete."
+          draft: ${{ github.event.inputs.draft || 'true' }}
+          tags: test, github-actions, automation
+          canonical_url: https://example.com/test
+          ---
+
+          # Hello from GitHub Actions!
+
+          This is an automated smoke-test post. It was published as a **draft** and can be safely deleted.
+
+          ## What was tested
+
+          - Frontmatter parsing
+          - Dev.to API authentication
+          - Draft publishing flow
+          EOF
+
+      - name: Run action
+        uses: ./
+        with:
+          api-key: ${{ secrets.DEVTO_API_KEY }}
+          file-path: ${{ github.event.inputs.test-file || 'test/sample-post.md' }}
+          base-url: 'https://example.com'
