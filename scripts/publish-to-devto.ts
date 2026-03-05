@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Publish Hugo blog posts to dev.to
+ * Publish Hugo blog posts to dev.to more ...
  * 
  * Usage:
  *   npm install --save-dev @types/node gray-matter
