@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 /**
- * Convert Hugo mermaid shortcodes to mermaid.ink image URLs
+ * Convert Hugo mermaid shortcodes to mermaid.ink image URLs added more data
  * Hugo format: {{< mermaid >}} ... {{< /mermaid >}}
  * Dev.to format: ![Mermaid Diagram](https://mermaid.ink/img/base64encodedcontent)
  */
