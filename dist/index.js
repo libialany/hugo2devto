@@ -25686,7 +25686,7 @@ const core = __importStar(__nccwpck_require__(7484));
 const fs = __importStar(__nccwpck_require__(9896));
 const path = __importStar(__nccwpck_require__(6928));
 /**
- * Convert Hugo mermaid shortcodes to mermaid.ink image URLs
+ * Convert Hugo mermaid shortcodes to mermaid.ink image URLs added more data
  * Hugo format: {{< mermaid >}} ... {{< /mermaid >}}
  * Dev.to format: ![Mermaid Diagram](https://mermaid.ink/img/base64encodedcontent)
  */
