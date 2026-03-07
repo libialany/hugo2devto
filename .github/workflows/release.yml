@@ -1,39 +1,22 @@
-<<<<<<< HEAD
-=======
-# Creates a GitHub Release when a semantic version tag (vX.Y.Z) is pushed.
->>>>>>> 266ad2a52024a0ef89501e28ced5137a40439f76
 name: Release
 
 on:
   push:
     tags:
-<<<<<<< HEAD
       - 'v*.*.*'  # Only trigger on semantic version tags (v1.0.0, v1.1.0, etc.)
 
 jobs:
   release:
-=======
-      - 'v[0-9]+.[0-9]+.[0-9]+'   # strict semver: v1.0.0, v2.3.4, etc.
-
-jobs:
-  release:
-    name: Create Release
->>>>>>> 266ad2a52024a0ef89501e28ced5137a40439f76
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
-<<<<<<< HEAD
       
-=======
-
->>>>>>> 266ad2a52024a0ef89501e28ced5137a40439f76
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-<<<<<<< HEAD
       
       - name: Install dependencies
         run: npm ci
@@ -47,28 +30,11 @@ jobs:
       
       - name: Create Release
         uses: softprops/action-gh-release@v1
-=======
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline
-
-      - name: Build action
-        run: npm run build
-
-      - name: Extract version from tag
-        id: version
-        run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
->>>>>>> 266ad2a52024a0ef89501e28ced5137a40439f76
         with:
           tag_name: ${{ steps.version.outputs.version }}
           name: Release ${{ steps.version.outputs.version }}
           body: |
             ## Changes in this Release
-<<<<<<< HEAD
             
             See [CHANGELOG.md](CHANGELOG.md) for details.
             
@@ -82,21 +48,5 @@ jobs:
             ```
           draft: false
           prerelease: false
-=======
-
-            See [CHANGELOG.md](CHANGELOG.md) for details.
-
-            ## Usage
-
-            ```yaml
-            - uses: Walsen/hugo-to-devto-action@${{ steps.version.outputs.version }}
-              with:
-                api-key: ${{ secrets.DEVTO_API_KEY }}
-                file-path: 'content/posts/my-post.md'
-            ```
-          draft: false
-          prerelease: ${{ contains(steps.version.outputs.version, '-') }}  # auto pre-release for v1.0.0-beta
-          files: dist/index.js
->>>>>>> 266ad2a52024a0ef89501e28ced5137a40439f76
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
