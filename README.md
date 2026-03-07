@@ -1,7 +1,10 @@
 # Publish to Dev.to GitHub Action
 
-[![Build and Package](https://github.com/Walsen/hugo2devto/actions/workflows/build.yml/badge.svg)](https://github.com/Walsen/hugo2devto/actions/workflows/build.yml)
+[![Build and Package](https://github.com/libialany/hugo2devto/actions/workflows/build.yml/badge.svg)](https://github.com/libialany/hugo2devto/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub Stars](https://img.shields.io/github/stars/libialany/hugo2devto?style=social)](https://github.com/libialany/hugo2devto/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/libialany/hugo2devto?style=social)](https://github.com/libialany/hugo2devto/network/members)
+[![GitHub Watchers](https://img.shields.io/github/watchers/libialany/hugo2devto?style=social)](https://github.com/libialany/hugo2devto/watchers)
 
 A GitHub Action to automatically publish Hugo blog posts (or any markdown files with frontmatter) to [dev.to](https://dev.to).
 
@@ -192,6 +195,10 @@ MIT License - see LICENSE file for details
 - 🏗️ [Project Structure](docs/PROJECT_STRUCTURE.md) - Repository organization
 - 🤝 [Contributing](CONTRIBUTING.md) - Development and contribution guide
 - 📋 [Changelog](CHANGELOG.md) - Version history
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=libialany/hugo2devto&type=Date)](https://star-history.com/#libialany/hugo2devto&Date)
 
 ## Credits
 
